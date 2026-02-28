@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS db_versions (
+  db_version INTEGER PRIMARY KEY,
+  created TIMESTAMP DEFAULT NOW()
+);
