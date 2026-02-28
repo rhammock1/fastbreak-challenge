@@ -60,13 +60,13 @@ pool.on('error', (e, _client) => {
 });
 
 /**
- * @description Checks the `db_migrate` directory for new migrations and runs them. Compares against the `db_migrate` table
+ * @description Checks the `db_migrate` directory for new migrations and runs them. Compares against the `db_versions` table
  */
 export async function upgrade() {
   log('warn', '[DB] Upgrading database...');
   let currentDbVersion: number;
   try {
-    const {rows: [latest]} = await pool.query('SELECT MAX(db_version) AS version FROM db_migrate;');
+    const {rows: [latest]} = await pool.query('SELECT MAX(db_version) AS version FROM db_versions;');
     ({version: currentDbVersion} = latest);
     if(currentDbVersion == null) {
       currentDbVersion = 0;
@@ -87,7 +87,7 @@ export async function upgrade() {
     for(let i = currentDbVersion + 1; i <= maxVersion; i++) {
       const sql = await fs.promises.readFile(path.join(db_migrate_dir, `${i}.sql`), 'utf-8');
       await pool.query(sql);
-      await pool.query('INSERT INTO db_migrate (db_version) VALUES ($1)', [i]);
+      await pool.query('INSERT INTO db_versions (db_version) VALUES ($1)', [i]);
       log('info', `[DB] Migrated to version ${i}`);
     }
     log('info', `[DB] Database upgraded to version ${maxVersion}`);
