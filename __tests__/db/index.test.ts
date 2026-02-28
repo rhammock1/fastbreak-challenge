@@ -77,17 +77,21 @@ describe("db.file", () => {
 
     it("assigns sequential numbers to distinct params", async () => {
       mockReadFileSync.mockReturnValue(
-        "SELECT * FROM events WHERE user_id = ${userId} AND sport_type = ${sport}"
+        "SELECT * FROM events WHERE user_id = ${user_id} AND sport_type = ${sport}"
       );
       mockQuery.mockResolvedValue({ rows: [] });
 
-      await db.file("db/events/get_by_user_id_and_sport.sql", { userId: "abc", sport: "Soccer" });
+      const user_id = "123";
+      const sport = "Soccer";
+      await db.file("db/events/get_by_user_id_and_sport.sql", {user_id, sport});
 
       const callArgs = mockQuery.mock.calls[0][0];
       expect(callArgs.text).toContain("$1");
       expect(callArgs.text).toContain("$2");
-      expect(callArgs.text).not.toContain("${userId}");
+      expect(callArgs.text).not.toContain("${user_id}");
       expect(callArgs.text).not.toContain("${sport}");
+      // Ensure the named params are mapped to the correct values
+      expect(callArgs.values).toEqual([user_id, sport]);
     });
 
     it("reuses the same $N for a repeated param name", async () => {
