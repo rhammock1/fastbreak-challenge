@@ -8,17 +8,7 @@ export type ActionResult<T = void> =
 
 // ─── Domain Types ─────────────────────────────────────────────────────────────
 
-export type SportType =
-  | "Soccer"
-  | "Basketball"
-  | "Tennis"
-  | "Baseball"
-  | "Football"
-  | "Hockey"
-  | "Volleyball"
-  | "Other";
-
-export const SPORT_TYPES: SportType[] = [
+export const SPORT_TYPES = [
   "Soccer",
   "Basketball",
   "Tennis",
@@ -26,32 +16,46 @@ export const SPORT_TYPES: SportType[] = [
   "Football",
   "Hockey",
   "Volleyball",
+  "Handball",
+  "Rugby",
+  "Golf",
   "Other",
-];
+] as const;
+
+export type SportType = typeof SPORT_TYPES[number];
 
 export type Venue = {
-  id: string;
-  event_id: string;
-  name: string;
-  address: string | null;
-  city: string | null;
-  state: string | null;
-  created_at: string;
+  venue_id: string;
+  venue_name: string;
+  venue_description: string | null;
+  venue_street_1: string;
+  venue_street_2: string | null;
+  venue_city: string;
+  venue_state: string;
+  venue_zip: string;
+  venue_created: string;
+  venue_updated: string;
+  create_user_id: string;
+  update_user_id: string; // really only tracks the last person to modify
+  archived: string | null;
 };
 
 export type Event = {
-  id: string;
-  user_id: string;
-  name: string;
-  sport_type: SportType;
-  date_time: string;
-  description: string | null;
-  created_at: string;
-  updated_at: string;
+  event_id: string;
+  event_name: string;
+  event_description: string | null;
+  event_start_time: string;
+  event_end_time: string;
+  event_sport_type: SportType;
+  event_created: string;
+  event_updated: string;
+  create_user_id: string;
+  update_user_id: string; // really only tracks the last person to modify
   venues: Venue[];
+  archived: string | null;
 };
 
 // Lighter shape used on the dashboard list (no full venue details needed)
 export type EventSummary = Omit<Event, "venues"> & {
-  venues: Pick<Venue, "id" | "name">[];
+  venues: Pick<Venue, "venue_id" | "venue_name">[];
 };
