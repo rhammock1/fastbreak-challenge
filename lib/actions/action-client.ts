@@ -19,6 +19,10 @@ export async function actionClient<T>(
     const data = await fn();
     return { success: true, data };
   } catch (err) {
+    // Next.js redirect() throws a special signal — let it propagate
+    if (err instanceof Error && (err as Error & { digest?: string }).digest?.startsWith('NEXT_REDIRECT')) {
+      throw err
+    }
     const message =
       err instanceof Error ? err.message : "An unexpected error occurred.";
     console.error("[APP]", err);
