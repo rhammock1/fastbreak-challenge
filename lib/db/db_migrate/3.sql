@@ -1,0 +1,2 @@
+ALTER TABLE venues
+ADD COLUMN venue_country TEXT DEFAULT 'US';
