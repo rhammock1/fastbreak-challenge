@@ -28,7 +28,7 @@ const getMessage = (level: keyof typeof LOG_LEVELS, params: unknown[]) => {
 };
 
 export const log = (level: keyof typeof LOG_LEVELS, ...params: unknown[]) => {
-  if(LOG_LEVELS[level] < ENV_LOG_LEVEL) return;
+  if(LOG_LEVELS[level] > ENV_LOG_LEVEL) return;
 
   const message = getMessage(level, params);
   
