@@ -26,6 +26,7 @@ export type SportType = typeof SPORT_TYPES[number];
 
 export type Venue = {
   venue_id: string;
+  venue_uuid: string;
   venue_name: string;
   venue_description: string | null;
   venue_street_1: string;
@@ -42,6 +43,7 @@ export type Venue = {
 
 export type Event = {
   event_id: string;
+  event_uuid: string;
   event_name: string;
   event_description: string | null;
   event_start_time: string;
@@ -57,5 +59,5 @@ export type Event = {
 
 // Lighter shape used on the dashboard list (no full venue details needed)
 export type EventSummary = Omit<Event, "event_venues"> & {
-  event_venues: Pick<Venue, "venue_id" | "venue_name">[];
+  event_venues: Pick<Venue, "venue_uuid" | "venue_name">[];
 };

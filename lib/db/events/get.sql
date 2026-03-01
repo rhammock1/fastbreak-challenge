@@ -1,4 +1,5 @@
 SELECT e.event_id,
+  e.event_uuid,
   e.event_name,
   e.event_description,
   e.event_start_time,
@@ -8,7 +9,7 @@ SELECT e.event_id,
   e.create_user_id,
   COALESCE(
     jsonb_agg(jsonb_build_object(
-      'venue_id', v.venue_id,
+      'venue_uuid', v.venue_uuid,
       'venue_name', v.venue_name
     )) FILTER (WHERE v.venue_id IS NOT NULL),
     '[]'::jsonb

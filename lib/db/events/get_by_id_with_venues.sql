@@ -1,4 +1,5 @@
 SELECT e.event_id,
+  e.event_uuid,
   e.event_name,
   e.event_description,
   e.event_start_time,
@@ -9,6 +10,7 @@ SELECT e.event_id,
   COALESCE(
     jsonb_agg(jsonb_build_object(
       'venue_id', v.venue_id,
+      'venue_uuid', v.venue_uuid,
       'venue_name', v.venue_name,
       'venue_description', v.venue_description,
       'venue_address', format_address(v.venue_street_1, v.venue_street_2, v.venue_city, v.venue_state, v.venue_zip),
