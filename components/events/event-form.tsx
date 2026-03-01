@@ -31,6 +31,10 @@ type Props = {
   venues: Venue[]
 }
 
+function toDateTimeLocal(value: string | Date) {
+  return new Date(value).toISOString().slice(0, 16)
+}
+
 export function EventForm({event, venues}: Props) {
   const router = useRouter()
   const isEditing = !!event
@@ -42,8 +46,8 @@ export function EventForm({event, venues}: Props) {
         event_name: event.event_name,
         event_description: event.event_description ?? '',
         event_sport_type: event.event_sport_type,
-        event_start_time: event.event_start_time,
-        event_end_time: event.event_end_time,
+        event_start_time: toDateTimeLocal(event.event_start_time),
+        event_end_time: toDateTimeLocal(event.event_end_time),
         event_venues: event.event_venues.map(v => v.venue_uuid),
       } 
       : {
@@ -58,7 +62,7 @@ export function EventForm({event, venues}: Props) {
 
   async function onSubmit(values: EventFormValues) {
     const result = isEditing
-      ? await updateEvent(event.event_id, values)
+      ? await updateEvent(event.event_uuid, values)
       : await createEvent(values)
 
     if (result.success) {

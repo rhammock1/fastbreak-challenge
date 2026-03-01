@@ -16,9 +16,9 @@ async function confirmUser() {
   return user;
 }
 
-export async function getEvent(event_id: string) {
+export async function getEvent(event_uuid: string) {
   return actionClient<Event>(async () => {
-    const {rows: [event]} = await db.file('db/events/get_by_id_with_venues.sql', {event_id});
+    const {rows: [event]} = await db.file('db/events/get_by_uuid_with_venues.sql', {event_uuid});
     if(!event) {
       throw new Error('Event not found');
     }
@@ -79,17 +79,22 @@ export async function createEvent({event_name, event_description, event_sport_ty
   });
 }
 
-export async function updateEvent(event_id: string, values: EventFormValues) {
+export async function updateEvent(event_uuid: string, values: EventFormValues) {
   return actionClient<Event>(async () => {
     const user = await confirmUser();
     const {rows: [event]} = await db.file('db/events/patch.sql', {
-      event_id,
+      event_uuid,
       update_user_id: user.id,
       ...values,
     });
     if(!event) {
       throw new Error('Failed to update event');
     }
+    await db.file('db/event_venues/archive.sql', {event_id: event.event_id});
+    await db.file('db/event_venues/put.sql', {
+      event_id: event.event_id,
+      venue_uuids: values.event_venues,
+    });
     return event;
   });
 }
