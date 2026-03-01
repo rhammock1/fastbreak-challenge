@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION formatAddress(
+CREATE OR REPLACE FUNCTION format_address(
   street_1 TEXT, 
   street_2 TEXT, 
   city TEXT, 

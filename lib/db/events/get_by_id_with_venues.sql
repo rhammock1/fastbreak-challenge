@@ -11,7 +11,7 @@ SELECT e.event_id,
       'venue_id', v.venue_id,
       'venue_name', v.venue_name,
       'venue_description', v.venue_description,
-      'venue_address', formatAddress(v.venue_street_1, v.venue_street_2, v.venue_city, v.venue_state, v.venue_zip),
+      'venue_address', format_address(v.venue_street_1, v.venue_street_2, v.venue_city, v.venue_state, v.venue_zip),
       'venue_created', v.venue_created,
       'venue_create_user_id', v.create_user_id
     )) FILTER WHERE v.venue_id IS NOT NULL,
