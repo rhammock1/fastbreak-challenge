@@ -51,9 +51,9 @@ export async function searchEvents({search, sport_type, event_day}: {search?: st
   });
 }
 
-export async function archiveEvent(event_id: string) {
+export async function archiveEvent(event_uuid: string) {
   return actionClient<void>(async () => {
     const user = await confirmUser();
-    await db.file('db/events/archive.sql', {event_id, user_id: user.id});
+    await db.file('db/events/archive.sql', {event_uuid, user_id: user.id});
   });
 }
