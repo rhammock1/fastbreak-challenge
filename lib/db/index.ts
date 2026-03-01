@@ -60,6 +60,18 @@ pool.on('error', (e, _client) => {
 });
 
 /**
+ * @description Loads the database functions from the `functions` directory
+ */
+async function loadFunctions() {
+  try {
+    const sql = await fs.promises.readFile(path.join(process.cwd(), 'lib', 'db', 'functions', 'functions.sql'), 'utf-8');
+    await pool.query(sql);
+  } catch(err) {
+    log('error', '[DB]', 'Failed to load functions', err);
+  }
+}
+
+/**
  * @description Checks the `db_migrate` directory for new migrations and runs them. Compares against the `db_versions` table
  */
 export async function upgrade() {
@@ -94,6 +106,9 @@ export async function upgrade() {
   } else {
     log('info', `[DB] Database is already up to date (version ${currentDbVersion})`);
   }
+
+  log('info', '[DB] Loading database functions...');
+  await loadFunctions();
 }
 
 const fileCache = new Map<string, [string, string[]]>();
