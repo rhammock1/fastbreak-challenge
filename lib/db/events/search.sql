@@ -8,7 +8,7 @@ SELECT e.event_id,
   e.create_user_id,
   COALESCE(
     jsonb_agg(jsonb_build_object(
-      'venue_id', v.venue_id,
+      'venue_uuid', v.venue_uuid,
       'venue_name', v.venue_name
     )) FILTER (WHERE v.venue_id IS NOT NULL),
     '[]'::jsonb
@@ -17,7 +17,7 @@ FROM events e
 LEFT JOIN event_venues ev ON ev.event_id = e.event_id AND ev.archived IS NULL
 LEFT JOIN venues v ON v.venue_id = ev.venue_id AND v.archived IS NULL
 WHERE e.archived IS NULL
-  AND (${search} IS NULL OR e.event_name ILIKE '%' || ${search} || '%')
-  AND (${sport_type} IS NULL OR e.event_sport_type = ${sport_type}::sport_types)
-  AND (${event_day} IS NULL OR e.event_start_time::date = ${event_day})
+  AND (${search}::TEXT IS NULL OR e.event_name ILIKE '%' || ${search}::TEXT || '%')
+  AND (${sport_type}::sport_types IS NULL OR e.event_sport_type = ${sport_type}::sport_types)
+  AND (${event_day}::DATE IS NULL OR e.event_start_time::DATE = ${event_day}::DATE)
 GROUP BY e.event_id;
