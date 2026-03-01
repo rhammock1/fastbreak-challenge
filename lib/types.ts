@@ -51,11 +51,11 @@ export type Event = {
   event_updated: string;
   create_user_id: string;
   update_user_id: string; // really only tracks the last person to modify
-  venues: Venue[];
+  event_venues: Venue[];
   archived: string | null;
 };
 
 // Lighter shape used on the dashboard list (no full venue details needed)
-export type EventSummary = Omit<Event, "venues"> & {
-  venues: Pick<Venue, "venue_id" | "venue_name">[];
+export type EventSummary = Omit<Event, "event_venues"> & {
+  event_venues: Pick<Venue, "venue_id" | "venue_name">[];
 };
