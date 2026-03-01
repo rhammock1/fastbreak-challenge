@@ -72,6 +72,26 @@ async function loadFunctions() {
 }
 
 /**
+ * @description Loads the database triggers from the `triggers` directory
+ * Triggers use CREATE OR REPLACE so that they can be reloaded without errors if they already exist
+ */
+async function loadTriggers() {
+  try {
+    const sql = await fs.promises.readFile(path.join(process.cwd(), 'lib', 'db', 'triggers', 'triggers.sql'), 'utf-8');
+    await pool.query(sql);
+  } catch(err) {
+    log('error', '[DB]', 'Failed to load triggers', err);
+  }
+}
+
+async function loadFunctionsAndTriggers() {
+  log('info', '[DB] Loading database functions...');
+  await loadFunctions();
+  log('info', '[DB] Loading database triggers...');
+  await loadTriggers();
+}
+
+/**
  * @description Checks the `db_migrate` directory for new migrations and runs them. Compares against the `db_versions` table
  */
 export async function upgrade() {
@@ -107,8 +127,7 @@ export async function upgrade() {
     log('info', `[DB] Database is already up to date (version ${currentDbVersion})`);
   }
 
-  log('info', '[DB] Loading database functions...');
-  await loadFunctions();
+  await loadFunctionsAndTriggers();
 }
 
 const fileCache = new Map<string, [string, string[]]>();
