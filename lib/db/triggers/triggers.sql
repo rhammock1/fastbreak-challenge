@@ -17,12 +17,12 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER archive_event_venue_by_event
 AFTER UPDATE of archived ON events
-WHEN (OLD.archived IS NULL AND NEW.archived IS NOT NULL)
 FOR EACH ROW
+WHEN (OLD.archived IS NULL AND NEW.archived IS NOT NULL)
 EXECUTE PROCEDURE archive_event_venue();
 
 CREATE OR REPLACE TRIGGER archive_event_venue_by_venue
 AFTER UPDATE of archived ON venues
-WHEN (OLD.archived IS NULL AND NEW.archived IS NOT NULL)
 FOR EACH ROW
+WHEN (OLD.archived IS NULL AND NEW.archived IS NOT NULL)
 EXECUTE PROCEDURE archive_event_venue();
