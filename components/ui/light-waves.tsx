@@ -79,15 +79,41 @@ export function LightWavesBackground({
     let width = 0
     let height = 0
 
-    const updateSize = () => {
-      const rect = container.getBoundingClientRect()
-      width = rect.width
-      height = rect.height
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null
+
+    const applyResize = (newWidth: number, newHeight: number) => {
+      const prevHeight = height || newHeight
+      width = newWidth
+      height = newHeight
       canvas.width = width
       canvas.height = height
-      initWaves(height)
+
+      if (wavesRef.current.length === 0) {
+        initWaves(height)
+      } else {
+        const scale = height / prevHeight
+        for (const wave of wavesRef.current) {
+          wave.y = wave.y * scale
+          wave.amplitude = wave.amplitude * scale
+        }
+      }
     }
-    updateSize()
+
+    const updateSize = () => {
+      const rect = container.getBoundingClientRect()
+      const newWidth = Math.round(rect.width)
+      const newHeight = Math.round(rect.height)
+
+      if (newWidth === width && newHeight === height) return
+
+      if (resizeTimer) clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => applyResize(newWidth, newHeight), 100)
+    }
+
+    applyResize(
+      Math.round(container.getBoundingClientRect().width),
+      Math.round(container.getBoundingClientRect().height),
+    )
 
     const ro = new ResizeObserver(updateSize)
     ro.observe(container)
@@ -206,6 +232,7 @@ export function LightWavesBackground({
 
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
+      if (resizeTimer) clearTimeout(resizeTimer)
       ro.disconnect()
     }
   }, [colors, speed, intensity, initWaves])
