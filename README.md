@@ -66,6 +66,10 @@ The database layer is organized into three main tables- `events`, `venues`, and 
 For the UI, I heavily leaned on `shadcn/ui` for the components and `sonner` for toast notifications. This allowed me to create a modern, responsive, and accessible UI with minimal effort. UI development is not my strong suit, so I focused on creating a clean and intuitive interface that was easy to use.
 All timestamps are stored in UTC and converted to the user's local time on the client side.
 
+### Testing
+
+Some brief tests were included in the `__tests__` directory, implemented with `vitest` because of its integration with `next`. The tests cover the use of the `actionClient` and the database `file` function. More tests could be added to ensure that server actions and the UI layer function as expected.
+
 ## Future Improvements
 
 For the search functionality, I chose to use `ILIKE` against the `event_name` column instead of a Postgres extension like `pg_trgm` due to the simplicity of this challenge. For a production application, I would use `pg_trgm` and a GIN index for fuzzy search. 
@@ -74,4 +78,6 @@ As more events are created, I would consider adding pagination to the search res
 
 While outside the scope of this challenge, I would also add a way for users to create and manage their own venues. It could be integrated with Google Places API to provide a more seamless experience in searching for and selecting venues.
 
-With more time, I would also add an `event_sports` table to allow for multiple sports per event.
+With more time, I would consider adding an `event_sports` table to allow for multiple sports per event.
+
+Testing could also be improved, with more tests for the database layer to ensure that the queries return the expected results. E2E tests could also be added to ensure that the UI layer functions as expected.
