@@ -21,7 +21,7 @@ export default async function DashboardLayout({
 
   return (
     <>
-      {children}
+      <main className="flex-1">{children}</main>
       <Footer />
     </>
   );

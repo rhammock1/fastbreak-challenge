@@ -260,7 +260,7 @@ export function LightWavesBackground({
       />
 
       {/* Content layer */}
-      {children && <div className="relative z-10 h-full w-full overflow-y-auto">{children}</div>}
+      {children && <div className="relative z-10 h-full w-full overflow-y-auto flex flex-col">{children}</div>}
     </div>
   )
 }
