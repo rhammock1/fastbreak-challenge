@@ -67,7 +67,7 @@ export function EventForm({event, venues}: Props) {
 
     if (result.success) {
       toast.success(isEditing ? 'Event updated' : 'Event created')
-      router.push('/dashboard')
+      router.push(isEditing ? `/events/${event.event_uuid}` : '/dashboard')
     } else {
       toast.error(result.error)
     }
