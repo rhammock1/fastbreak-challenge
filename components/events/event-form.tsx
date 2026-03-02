@@ -32,7 +32,18 @@ type Props = {
 }
 
 function toDateTimeLocal(value: string | Date) {
-  return new Date(value).toISOString().slice(0, 16)
+  const date = new Date(value)
+  const offset = date.getTimezoneOffset() * 60000
+  return new Date(date.getTime() - offset).toISOString().slice(0, 16)
+}
+
+/**
+ * Returns the current timezone in a human-readable format (e.g. "EDT"). Falls back to the IANA timezone name (e.g. "America/New York") if the short name is not available.
+ */
+function getTimezoneLabel() {
+  const parts = Intl.DateTimeFormat(undefined, {timeZoneName: 'short'}).formatToParts(new Date())
+  return parts.find(p => p.type === 'timeZoneName')?.value 
+    ?? Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, ' ')
 }
 
 export function EventForm({event, venues}: Props) {
@@ -61,9 +72,14 @@ export function EventForm({event, venues}: Props) {
   })
 
   async function onSubmit(values: EventFormValues) {
+    const payload: EventFormValues = {
+      ...values,
+      event_start_time: new Date(values.event_start_time).toISOString(),
+      event_end_time: new Date(values.event_end_time).toISOString(),
+    }
     const result = isEditing
-      ? await updateEvent(event.event_uuid, values)
-      : await createEvent(values)
+      ? await updateEvent(event.event_uuid, payload)
+      : await createEvent(payload)
 
     if (result.success) {
       toast.success(isEditing ? 'Event updated' : 'Event created')
@@ -128,7 +144,7 @@ export function EventForm({event, venues}: Props) {
           )}
         />
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mb-0">
           <FormField
             control={form.control}
             name="event_start_time"
@@ -156,6 +172,7 @@ export function EventForm({event, venues}: Props) {
             )}
           />
         </div>
+        <p className="text-xs text-muted-foreground mt-1">Times are in your local timezone ({getTimezoneLabel()})</p>
 
         <FormField
           control={form.control}
