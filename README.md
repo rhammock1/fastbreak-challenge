@@ -6,8 +6,8 @@ This is a simple event management application that allows users to create, edit,
 
 This web app can viewed at `https://fastbreak-challenge-roan.vercel.app`
 
-Technical Requirements:
-- Framework: Next.js 15+ (App Router)
+## Stack
+- Framework: Next.js v16
 - Language: TypeScript
 - Database: Supabase
 - Styling: Tailwind CSS
@@ -15,7 +15,7 @@ Technical Requirements:
 - Deployment: Vercel
 - Authentication: Supabase Auth
 
-Core Requirements:
+## Features
 - Authentication
   - Sign up / Login with email & password or Google OAuth Sign-in
   - Protected routes (redirect to login if not authenticated)
