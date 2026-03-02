@@ -1,4 +1,5 @@
 SELECT e.event_id,
+  e.event_uuid,
   e.event_name,
   e.event_description,
   e.event_start_time,
