@@ -2,6 +2,7 @@
 
 import {useForm} from 'react-hook-form';
 import {toast} from 'sonner';
+import {useRouter} from 'next/navigation';
 import {signup} from '@/lib/actions/auth';
 import {AuthFormValues, authResolver} from '@/lib/validations/auth';
 
@@ -17,6 +18,7 @@ import {
   } from '@/components/ui/form';
 
 export function SignupForm() {
+  const router = useRouter();
   const form = useForm<AuthFormValues>({
     resolver: authResolver,
     defaultValues: {email: '', password: ''},
@@ -67,6 +69,9 @@ export function SignupForm() {
         />
         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? 'Signing up...' : 'Sign up'}
+        </Button>
+        <Button type="button" className="w-full" onClick={() => router.push('/login')}>
+          Already have an account? Login
         </Button>
       </form>
     </Form>
