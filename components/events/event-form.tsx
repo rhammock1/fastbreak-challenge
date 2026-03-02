@@ -144,7 +144,7 @@ export function EventForm({event, venues}: Props) {
           )}
         />
 
-        <div className="grid grid-cols-2 gap-4 mb-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-0">
           <FormField
             control={form.control}
             name="event_start_time"
