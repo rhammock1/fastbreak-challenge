@@ -11,7 +11,7 @@ export async function login(values: {email: string, password: string}) {
     if(error) {
       throw error;
     }
-    redirect('/dashboard?confetti=true');
+    redirect('/dashboard');
   });
 }
 
@@ -22,7 +22,7 @@ export async function signup(values: {email: string, password: string}) {
     if(error) {
       throw error;
     }
-    redirect('/dashboard?confetti=true');
+    redirect('/dashboard');
   });
 }
 
