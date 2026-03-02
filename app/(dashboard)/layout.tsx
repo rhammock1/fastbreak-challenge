@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import {Footer} from "@/components/footer/footer";
 
 // All routes nested under (dashboard) are protected.
 // Middleware handles the redirect, but this is a server-side
@@ -18,5 +19,10 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <Footer />
+    </>
+  );
 }
