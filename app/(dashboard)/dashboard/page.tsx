@@ -30,11 +30,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   }
 
   const dashboardHeader = (
-    <div className="mb-6 flex items-center justify-between">
+    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <h1 className="text-2xl text-white font-semibold">Events</h1>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <SearchBar available_event_dates={available_dates} />
-        <Button asChild>
+        <Button asChild className="w-full sm:w-auto">
           <Link href="/events/new">New Event</Link>
         </Button>
       </div>

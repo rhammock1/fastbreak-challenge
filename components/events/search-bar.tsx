@@ -47,40 +47,42 @@ export function SearchBar({available_event_dates}: {available_event_dates: strin
   }
 
   return (
-    <div className="flex text-white items-center gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center text-white">
       <Input
         placeholder="Search events"
         defaultValue={searchParams.get('search') ?? ''}
         onChange={handleSearch}
       />
-      <Select
-        defaultValue={searchParams.get('sport_type') ?? 'all'}
-        onValueChange={handleSportType}
-      >
-        <SelectTrigger className="w-[140px]">
-          <SelectValue placeholder="Sport" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All sports</SelectItem>
-          {SPORT_TYPES.map(sport => (
-            <SelectItem key={sport} value={sport}>{sport}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select
-        defaultValue={searchParams.get('event_day') ?? 'all'}
-        onValueChange={handleEventDay}
-      >
-        <SelectTrigger className="w-[140px]">
-          <SelectValue placeholder="Date" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All dates</SelectItem>
-          {available_event_dates.map((date, index) => (
-            <SelectItem key={`event-date-${index}`} value={date}>{date}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="flex gap-2 justify-center">
+        <Select
+          defaultValue={searchParams.get('sport_type') ?? 'all'}
+          onValueChange={handleSportType}
+        >
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder="Sport" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All sports</SelectItem>
+            {SPORT_TYPES.map(sport => (
+              <SelectItem key={sport} value={sport}>{sport}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select
+          defaultValue={searchParams.get('event_day') ?? 'all'}
+          onValueChange={handleEventDay}
+        >
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder="Date" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All dates</SelectItem>
+            {available_event_dates.map((date, index) => (
+              <SelectItem key={`event-date-${index}`} value={date}>{date}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   )
 }
