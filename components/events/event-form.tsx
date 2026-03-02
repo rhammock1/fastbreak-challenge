@@ -201,7 +201,7 @@ export function EventForm({event, venues}: Props) {
               : isEditing ? 'Save Changes' : 'Create Event'
             }
           </Button>
-          <Button type="button" variant="outline" onClick={() => router.push('/dashboard')}>
+          <Button className="text-black" type="button" variant="outline" onClick={() => router.push(isEditing ? `/events/${event.event_uuid}` : '/dashboard')}>
             Cancel
           </Button>
         </div>

@@ -19,7 +19,7 @@ export default async function EditEventPage({params}: EditEventPageProps) {
   const venues = venueResult.data;
 
   return (
-    <div className="container mx-auto max-w-2xl px-4 py-8">
+    <div className="container text-white mx-auto max-w-2xl px-4 py-8">
       <h1 className="mb-6 text-2xl font-semibold">Edit Event</h1>
       <EventForm event={event} venues={venues} />
     </div>

@@ -22,14 +22,14 @@ export default async function EventPage({ params }: Props) {
   const event = result.data
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl">
+    <div className="container text-white mx-auto px-4 py-8 max-w-2xl">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-semibold">{event.event_name}</h1>
           <Badge className="mt-2">{event.event_sport_type}</Badge>
         </div>
         <div className="flex gap-2">
-          <Button asChild variant="outline" size="sm">
+          <Button className="text-black" asChild variant="outline" size="sm">
             <Link href={`/events/${event.event_uuid}/edit`}>Edit</Link>
           </Button>
           <DeleteEventButton event_uuid={event.event_uuid} />
