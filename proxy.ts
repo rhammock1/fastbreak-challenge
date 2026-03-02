@@ -6,7 +6,7 @@ export async function proxy(request: NextRequest) {
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
         getAll() {
@@ -46,6 +46,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // Skip Next.js internals and static files
     "/((?!_next/static|_next/image|favicon.ico|auth/callback).*)",
   ],
 };
